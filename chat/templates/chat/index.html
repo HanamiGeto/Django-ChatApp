@@ -6,6 +6,10 @@
     .page-content {
         padding: 100px 100px;
     }
+
+    .color-gray {
+        color: rgba(0, 0, 0, 0.4);
+    }
 </style>
 
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -36,6 +40,12 @@
     <main class="mdl-layout__content">
         <div class="page-content">
             <!-- Your content goes here -->
+
+            {% for message in messages %}
+            <div>
+                <span class="color-gray">[{{ message.created_at }}]</span> {{ message.author.first_name }}: <i>{{ message.text }}</i>
+            </div>
+            {% endfor %}
 
             <form action="/chat/" method="post">
                 {% csrf_token %}
