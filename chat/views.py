@@ -1,10 +1,11 @@
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from .models import Chat, Message
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core import serializers
+from django.shortcuts import redirect
 
 
 @login_required(login_url='/login/')
@@ -40,3 +41,11 @@ def register_view(request):
         if user:
             return HttpResponseRedirect('auth/login.html')
     return render(request, 'register/register.html', {'redirect': redirect})
+
+def logout_view(request):
+    logout(request)
+    redirect = request.GET.get('next')
+    if request.method == 'POST':
+        login_view
+    return render(request, 'auth/login.html', {'redirect': redirect})
+    
