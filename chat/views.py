@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.shortcuts import redirect
+from django.urls import reverse
 
 
 @login_required(login_url='/login/')
@@ -39,7 +40,13 @@ def register_view(request):
         user.first_name = request.POST.get('username')
         user.save()
         if user:
-            return HttpResponseRedirect('auth/login.html')
+            # login_view(request)
+            return HttpResponseRedirect(request.POST.get('redirect'))
+            # return redirect('chat')
+            # return HttpResponseRedirect(reverse('app_name:chat'))
+            # return HttpResponseRedirect('login/')
+            # return HttpResponseRedirect('auth/login.html')
+            # render(request, 'chat/index.html', {'redirect': redirect})
     return render(request, 'register/register.html', {'redirect': redirect})
 
 def logout_view(request):
@@ -49,3 +56,6 @@ def logout_view(request):
         login_view
     return render(request, 'auth/login.html', {'redirect': redirect})
     
+# messages_filter = {
+#     'class_wrote_message': User.is_authenticated and "message-left" or "message-right"
+# }

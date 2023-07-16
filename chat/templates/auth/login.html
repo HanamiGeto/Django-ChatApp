@@ -10,6 +10,9 @@
 <form action="/login/" method="POST">
     {% csrf_token %}
     <input type="hidden" name="redirect" value="{{ redirect }}">
+    <!-- {% if wrongPassword %}
+    <input type="hidden" name="redirect" value="?next=/chat/">
+    {% endif %} -->
     <div class="login-inputs">
         <div class="mdl-textfield mdl-js-textfield">
             <input class="mdl-textfield__input" name="username" type="text" id="sample1">
@@ -27,5 +30,5 @@
     </div>
 </form>
 
-<p class="register-text">Du hast noch keinen Account? Dann registriere dich <a href="/register/">hier</a>.</p>
+<p class="register-text">Du hast noch keinen Account? Dann registriere dich <a href="{% url 'register' %}?next={% url 'chat' %}">hier</a>.</p>
 {% endblock %}

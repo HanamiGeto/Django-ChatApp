@@ -5,65 +5,33 @@
 
 <div id="messageContainer">
     {% for message in messages %}
-    <div>
-        <span class="color-gray">[{{ message.created_at }}]</span> {{ message.author.first_name }}:
-        <i>{{ message.text }}</i>
+    <div class="message {% if request.user == message.author %}message-right{% else %}message-left{% endif %}">
+        <!-- <span>{{ request.user.id }}</span>
+        <span>{{ request.user.get_username }}</span>
+        <span>{{ message.author }}</span> -->
+        <span>{{ message.text }}</span>
+        <!-- <span class="">[{{ message.created_at }}]</span> -->
+        <span class="time">{{ message.created_at_time }}</span>
     </div>
     {% endfor %}
 </div>
 
-<script>
-    async function sendMessage() {
-        let fd = new FormData();
-        let objectDate = new Date();
-        let day = objectDate.getDate();
-        let month = objectDate.getMonth();
-        let year = objectDate.getFullYear();
-        let monthText = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        let date = monthText[month] + " " + day + ", " + year;
+<!-- <script src="../../../static/js/script.js"></script> -->
 
-        fd.append('textmessage', messageField.value);
-        fd.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        try {
-            messageContainer.innerHTML += `
-                <div id="deleteMessage">
-                    <span class="color-gray">[${date}]</span> {{ request.user.first_name }}:
-                    <i class="color-gray">${messageField.value}</i>
-                </div>`;
-
-            let response = await fetch('/chat/', {
-                method: 'POST',
-                body: fd
-            });
-            let json = await response.json();
-            console.log(json);
-            document.getElementById('deleteMessage').remove();
-
-            messageContainer.innerHTML += `
-                <div>
-                    <span class="color-gray">[${date}]</span> {{ request.user.first_name }}:
-                    <i>${messageField.value}</i>
-                </div>`;
-
-            console.log('Success!!');
-
-           
-        } catch(e) {
-            console.error('An error occured', e);
-        }
-    }
-</script>
-
-<form onsubmit="sendMessage(); return false" method="post">
+<form id="chatField" onsubmit="sendMessage(); return false" method="post">
     {% csrf_token %}
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <input class="mdl-textfield__input" name="textmessage" type="text" id="messageField">
-        <label class="mdl-textfield__label" for="messageField">Text...</label>
+        <label class="mdl-textfield__label" for="messageField">Nachricht..</label>
     </div>
     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
         Abschicken
     </button>
 </form>
+
+<script>
+    let token = "{{ csrf_token }}";
+</script>
 
 {% else %}
 <h1>Nicht eingeloggt</h1>

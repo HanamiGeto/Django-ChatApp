@@ -1,4 +1,13 @@
 .page-content {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    height: 100%;
+    /* padding: 100px 100px 0px; */
+}
+
+.padding-login-registration {
+    height: auto;
     padding: 100px 100px;
 }
 
@@ -14,4 +23,45 @@
 .register-text {
     margin: 0;
     margin-top: 20px;
+}
+
+#messageContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 100px;
+}
+
+#deleteMessage > * {
+    color: grey !important;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: darkslategrey;
+    width: fit-content;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.message > * {
+    color: white;
+}
+
+#chatField {
+    margin-top: auto;
+    padding: 50px;
+}
+
+.message-right {
+    align-self: flex-end;
+}
+
+.message-left {
+    align-self: flex-start;
+}
+
+.time {
+    font-size: 10px;
 }

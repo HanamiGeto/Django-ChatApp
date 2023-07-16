@@ -15,16 +15,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path, reverse_lazy
 
 from chat.views import index, login_view, register_view, logout_view
 from django.views.generic.base import RedirectView
+from django.views.generic.edit import CreateView
+from django.contrib.auth.forms import UserCreationForm
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', index, name='chat'),
     path('login/', login_view, name='login'),
-    path('register/', register_view),
+    path('register/', register_view, name='register'),
     path('', RedirectView.as_view(pattern_name="chat")),
-    path('logout/', logout_view, name='logout')
+    # path('', include(('django_chat_app.urls', 'chat'), namespace='chat')),
+    path('logout/', logout_view, name='logout'),
+    # path('^register/', CreateView.as_view(
+    #     template_name='register/register.html',
+    #     form_class=UserCreationForm,
+    #     success_url=reverse_lazy('chat')  # note the usage of reverse_lazy here 
+    # ), name='register'),
 ]
